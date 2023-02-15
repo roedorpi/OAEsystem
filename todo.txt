@@ -1,0 +1,234 @@
+
+TODO:
+========================================================================
+
+- SAVE NUMBER OF REJECTED RESPONSES!
+- Get Zuza's svn+afs working!
+- Set up laptop computer (Ubuntu, Matlab, Playrec, repository, test battery life)
+- Make it use one figure for all screens in the gui.
+- 'F03' as input argument to get_patientinfo and safenaming.
+- Calibration usability (it works atm though).
+- Counter to avoid entering infinite loop if everything is rejected in a TEOAE measurement. If we make it stop execution because of this, it should remember that last patient ID and have it loaded as it returns to the main window.
+- Ensure 260 clicks no matter the amount of noise and no matter the rejection level.
+- KISS gui. Patient loading, enter ear, start one of two measurement types once patient and ear have been entered. Actually start the measurement. When done, pop up with uisave dialog with suggested filename, press save, then return automatically to main window.
+- Remove files in directory not in use. There are quite a few atm.
+- Shine up plot windows.
+- Remove configuration window from gui.
+- Make it not possible to push the buttons before values are correctly
+  filled in.
+- Autoload subject when a number is written.
+
+- Fixes in the bottom of maingui_new.m.
+
+- Check scalings on plot axes. 
+
+========================================================================
+BUG
+- Playrec is losing the number of input channels on my Ubuntu (atc).
+
+
+
+
+
+========================================================================
+TEST OF NUMBER OF RECORDED RESPONSE UNDER VARIOUS NOISE CONDITIONS
+1: Specified 256, in ILO syringe (child tip), no noise
+    i counts 1:1:26, k counts [10:10:250 256], A and B are both 960x[5:5:125 128].
+    No responses were rejected in this measurement.
+2: Specified 260
+    i=1:1:26, k=10:10:260, A and B are 960x[5:5:130]
+3: Specified 260, in ILO syringe (child tip), noise by clapping 5 times in the first few seconds of the measurements.
+      The number of rejected responses shown in the gui was 12.
+
+      Output [i k size(A) size(B)]
+ans =
+     1    10   960     5   960     5
+ans =
+     2    20   960    10   960    10
+ans =
+     3    30   960    15   960    15
+ans =
+     4    37   960    19   960    18     % FEWER!
+ans =
+     5    45   960    23   960    22     % UNEQUAL!
+ans =
+     6    54   960    27   960    27     % EQUAL! Steps in 10 again
+ans =
+     7    60   960    30   960    30
+ans =
+     8    68   960    34   960    34
+ans =
+     9    78   960    39   960    39
+ans =
+    10    88   960    44   960    44
+ans =
+    11    98   960    49   960    49
+ans =
+    12   108   960    54   960    54
+ans =
+    13   118   960    59   960    59
+ans =
+    14   128   960    64   960    64
+ans =
+    15   138   960    69   960    69
+ans =
+    16   148   960    74   960    74
+ans =
+    17   158   960    79   960    79
+ans =
+    18   168   960    84   960    84
+ans =
+    19   178   960    89   960    89
+ans =
+    20   188   960    94   960    94
+ans =
+    21   198   960    99   960    99
+ans =
+    22   208   960   104   960   104
+ans =
+    23   218   960   109   960   109
+ans =
+    24   228   960   114   960   114
+ans =
+    25   238   960   119   960   119
+ans =
+    26   248   960   124   960   124
+ans =
+    27   258   960   129   960   129
+ans =
+    28   260   960   130   960   130
+
+
+4: Specified 260, clapping noise in the beginning while it was fitted in the ILO syringe, then took it out of the syringe to tap on the tip, number of rejected increased faster, after having made 390 rejected responses, I put it back in the syringe and stayed silent until it finished. It finished quite quickly after, indicating that it managed to get some recordings done during the noise. I guess this can be adjusted with the rejection level option.
+   Output:
+ans =
+     1    10   960     5   960     5
+ans =
+     2    19   960    10   960     9
+ans =
+     3    25   960    13   960    12
+ans =
+     4    30   960    15   960    15
+ans =
+     5    36   960    18   960    18
+ans =
+     6    41   960    21   960    20
+ans =
+     7    47   960    24   960    23
+ans =
+     8    50   960    25   960    25
+ans =
+     9    55   960    28   960    27
+ans =
+    10    60   960    30   960    30
+ans =
+    11    64   960    32   960    32
+ans =
+    12    65   960    33   960    32
+ans =
+    13    66   960    33   960    33
+ans =
+    14    68   960    34   960    34
+ans =
+    15    72   960    36   960    36
+ans =
+    16    76   960    38   960    38
+ans =
+    17    79   960    40   960    39
+ans =
+    18    82   960    41   960    41
+ans =
+    19    85   960    43   960    42
+ans =
+    20    87   960    44   960    43
+ans =
+    21    91   960    46   960    45
+ans =
+    22    93   960    47   960    46
+ans =
+    23    95   960    48   960    47
+ans =
+    24    97   960    49   960    48
+ans =
+    25    99   960    50   960    49
+ans =
+    26   100   960    50   960    50
+ans =
+    27   102   960    51   960    51
+ans =
+    28   105   960    53   960    52
+ans =
+    29   107   960    54   960    53
+ans =
+    30   110   960    55   960    55
+ans =
+    31   112   960    56   960    56
+ans =
+    32   114   960    57   960    57
+ans =
+    33   116   960    58   960    58
+ans =
+    34   118   960    59   960    59
+ans =
+    35   120   960    60   960    60
+ans =
+    36   122   960    61   960    61
+ans =
+    37   124   960    62   960    62
+ans =
+    38   125   960    63   960    62
+ans =
+    39   127   960    64   960    63
+ans =
+    40   129   960    65   960    64
+ans =
+    41   131   960    66   960    65
+ans =
+    42   133   960    67   960    66
+ans =
+    43   135   960    68   960    67
+ans =
+    44   136   960    68   960    68
+ans =
+    45   139   960    70   960    69
+ans =
+    46   141   960    71   960    70
+ans =
+    47   143   960    72   960    71
+ans =
+    48   146   960    73   960    73
+ans =
+    49   147   960    74   960    73
+ans =
+    50   156   960    78   960    78
+ans =
+    51   164   960    82   960    82
+ans =
+    52   166   960    83   960    83
+ans =
+    53   170   960    85   960    85
+ans =
+    54   175   960    88   960    87
+ans =
+    55   175   960    88   960    87
+ans =
+    56   175   960    88   960    87
+ans =
+    57   180   960    90   960    90
+ans =
+    58   190   960    95   960    95
+ans =
+    59   200   960   100   960   100
+ans =
+    60   210   960   105   960   105
+ans =
+    61   220   960   110   960   110
+ans =
+    62   230   960   115   960   115
+ans =
+    63   240   960   120   960   120
+ans =
+    64   250   960   125   960   125
+ans =
+    65   260   960   130   960   130
+
