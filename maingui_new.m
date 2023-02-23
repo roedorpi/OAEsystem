@@ -1,7 +1,7 @@
 function maingui_new(~,~)
-close all; clear all; %clc; 
+close all; clear; %clc; 
 global hPinfoText hPatientID hEar hEarText mainguiFigure...
-    jbh scLOUT scROUT scIN speakerL speakerR mic_sens
+    scLOUT scROUT scIN speakerL speakerR mic_sens
 
 load calibration
 scrsize=get(0,'ScreenSize');
@@ -35,12 +35,12 @@ hPatientID = uicontrol(mainguiFigure,...
     'Position',[0.25 0.78 0.5 0.04],...
     'BackgroundColor','w',...
     'Fontsize',11,...
-    'HorizontalAlignment','center');%,...
-    %'Callback',@load_info);
+    'HorizontalAlignment','center',...
+    'Callback',@load_info);
 
 
-jbh = findjobj(handle(hPatientID));
-set(jbh, 'KeyPressedCallback',@load_info);
+% jbh = findjobj(handle(hPatientID));
+% set(jbh, 'KeyPressedCallback',@load_info);
 
 
 hEar = uicontrol(mainguiFigure,...
@@ -55,6 +55,14 @@ hEar = uicontrol(mainguiFigure,...
     
     function changeFocus(~,~)
         val = get(hEar,'Value');
+        if val == 2
+            hEarText.String = 'Left Ear';
+        elseif val == 3 
+            hEarText.String = 'Right Ear';
+        else
+            hEarText.String = 'Choose Ear';
+            uicontrol(hEar);
+        end
         if val == 2 || val == 3
             uicontrol(tbut);
         end
@@ -102,31 +110,21 @@ dbut = uicontrol(mainguiFigure,...
 uicontrol(hPatientID)
 end
 
-function load_info(~,~)
-global hPatientID jbh hPinfoText hEar Ear Gender hEarText PatientID ID
-
-PatientID= get(jbh,'Text');
-%res=get_patientinfo(PatientID,'../emails/');
-tmp = load('../emails/M02.mat');
-res = tmp.HearingHistory;
-
-if iscell(res)
-    set(hPinfoText,'String',res(2))
-else 
-    ID = res.ID;
-    DoB=['Date of birth: ' sprintf('%g', res.Age(3)) '-' ...
-        sprintf('%g', res.Age(2)) '-'...
-        sprintf('%g', res.Age(1))];
-    patientText={sprintf('\n'); res.Name;...
-        res.email;...
-        res.Gender;...
-        DoB};
-    set(hPinfoText,'String',patientText)
+function load_info(hObj,eventdata)
+global  hPinfoText hEar Ear Gender hEarText PatientID ID
+DataPath = '../data/';
+PatientID = hObj.String;
+Files = dir([DataPath,'*.mat']);
+f = Files(contains({Files.name},PatientID));
+if ~isempty(f)
+    ID = f(1).name(1:3);
+    hPinfoText.String = sprintf('Subject Found: %s', PatientID); 
     uicontrol(hEar)
-        
+else 
+    ID = PatientID;
+    hPinfoText.String = sprintf('New Subject: %s',PatientID);
 end
 end
-
 
 function run_measurement(~,~,mtype)
 global Ear hEar hEarText hPinfoText hPatientID
@@ -150,3 +148,4 @@ global Ear hEar hEarText hPinfoText hPatientID
         end
     end
 end
+
