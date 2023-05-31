@@ -1,4 +1,4 @@
-function [repro RMS noiseRMS spectrum noise_spectrum mean_response] = teoae_processing(A,B)
+function [repro, RMS, noiseRMS, spectrum, noise_spectrum, mean_response] = teoae_processing(A,B)
     
 A_av=mean(A,2);
 B_av=mean(B,2);

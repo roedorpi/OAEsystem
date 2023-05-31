@@ -15,8 +15,8 @@ if playrec('isInitialised') == 0
     H = playrec('getDevices');
 
 %    SC = 'Built-in Output';
-%     SC = 'UA-25';
-SC = 'QUAD-CAPTURE';
+     SC = 'ASIO Fireface USB';
+%SC = 'QUAD-CAPTURE';
 % %    SC = 'HDA Int';
 H = playrec('getDevices');
 if playrec('isInitialised') == 0
